@@ -1,4 +1,4 @@
-<html>
+
 <head>
   <meta name="8thwall:renderer" content="aframe:1.3.0">
   <meta name="8thwall:package" content="@8thwall.xrextras">
@@ -6,16 +6,84 @@
   <!-- Other external scripts and meta tags can also be added. -->
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   <script src="//cdn.8thwall.com/web/aframe/aframe-extras-6.1.1.min.js"></script>
-  <script>
-    import './main.css'
-    import {characterMoveComponent} from './character-movement'
+  <script type="module">
+    import {characterMoveComponent} from './character-movement.js'
     AFRAME.registerComponent('character-move', characterMoveComponent)
-    import {responsiveImmersiveComponent} from './responsive-immersive'
+    import {responsiveImmersiveComponent} from './responsive-immersive.js'
     AFRAME.registerComponent('responsive-immersive', responsiveImmersiveComponent)
-    import {navMeshComponent} from './nav-mesh'
+    import {navMeshComponent} from './nav-mesh.js'
     AFRAME.registerComponent('navmesh-constraint', navMeshComponent)
   </script>
+  <style>
+    /* JOYSTICK */
+    .joystick-container {
+      pointer-events: none;
+      opacity: 0;
+    }
+    .joystick-container.visible {
+      opacity: 1;
+    }
+    .joystick {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      border-radius: 10000px;
+      z-index: 5;
+    }
+    .joystick.position {
+      width: 15vmin;
+      height: 15vmin;
+      border: 2px solid white;
+      z-index: 10;
+      box-shadow: 0px 0px 8px rgb(0 0 0 / 50%);
+    }
+    .joystick.origin {
+      width: 40vmin;
+      height: 40vmin;
+      border: 2px solid white;
+      box-shadow: 0px 0px 8px rgb(0 0 0 / 50%);
+    }
+    /* DESKTOP AND VR STYLES */
+    @media (min-width:320px)  { }
+    @media (min-width:481px)  { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
+    @media (min-width:641px)  {
+      
+      .joystick.position {
+        width: 8vmin;
+        height: 8vmin;
+        border: 2px solid white;
+        z-index: 10;
+        box-shadow: 0px 0px 8px rgb(0 0 0 / 50%);
+      }
+      
+      .joystick.origin {
+        width: 20vmin;
+        height: 20vmin;
+        border: 2px solid white;
+        box-shadow: 0px 0px 8px rgb(0 0 0 / 50%);
+      }
+    }
+      h3 {
+      text-align: center;
+      color: white;
+      font-family: 'Nunito', monospace;
+      text-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+      
+      z-index: 10;
+      position: absolute;
+      bottom: 0vh;
+      left: 50%;
+      transform: translate(-50%, 0);
+    }
+    .pulse-once { animation: pulse-once 0.2s cubic-bezier(0.785, 0.135, 0.150, 0.860) both; }
+    @keyframes pulse-once {
+      0% {transform: scale(1);}
+      50% {transform: scale(0.8);}
+      100% {transform: scale(1);}
+    }
+
+  </style>
 </head>
+<body>
 <div id="overlay" style="z-index: 2">
   <h3>DRAG TO MOVE</h3>
 </div>
@@ -65,7 +133,7 @@
     scale="0.25 0.25 0.25"
     shadow>
   </a-entity>
-  
+  <a-sky color="black"></a-sky>
   <a-plane
     id="ground" 
     rotation="-90 0 0" 
@@ -77,4 +145,4 @@
   </a-plane>
   
 </a-scene>
-</html>
+</body>
